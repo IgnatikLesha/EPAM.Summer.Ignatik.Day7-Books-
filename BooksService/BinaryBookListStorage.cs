@@ -11,16 +11,26 @@ namespace BooksService
     class BinaryBookListStorage : IBookListStorage
     {
         private string filePath;
+        public string FilePath {
+            get { return filePath; }
+            set
+            {
+                if(ReferenceEquals(value, null))
+                    throw new ArgumentException();
+                filePath = value;
+            }
+        }
+
         public BinaryBookListStorage(string path)
         {
-            filePath = path;
+            FilePath = path;
         }
 
         public List<Book> LoadBooks()
         {
             List<Book> books = new List<Book>();
 
-            using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
+            using (BinaryReader reader = new BinaryReader(File.Open(FilePath, FileMode.Open)))
             {
                 while (reader.PeekChar() > -1)
                 {
@@ -34,7 +44,7 @@ namespace BooksService
 
         public void SaveBooks(IEnumerable<Book> books)
         {
-            using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+            using (BinaryWriter writer = new BinaryWriter(File.Open(FilePath, FileMode.Create)))
             {
                 foreach (var book in books)
                 {
