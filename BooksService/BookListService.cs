@@ -10,8 +10,18 @@ namespace BooksService
 {
     class BookListService
     {
+        private List<Book> books;
+        public List<Book> Books
+        {
+            get { return books; }
+            set
+            {
+                if(ReferenceEquals(value, null))
+                    throw new ArgumentException();
+                books = value;
+            }
 
-        private List<Book> Books { get; }
+        }
 
         public BookListService(List<Book> books)
         {
